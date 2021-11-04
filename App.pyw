@@ -19,7 +19,6 @@ class ScriptCad:
         arq = open(r''+self.arquivo+'.scr', 'r+')
         conteudo = arq.readlines()
         conteudo.append(f'{msg}\n')
-        print (conteudo)
         arq= open(r''+self.arquivo+'.scr', 'w')
         arq.writelines(conteudo)
         arq.close()
@@ -64,7 +63,7 @@ class Aplicacao(tk.Frame):
 
     def __init__(self, janela=None):
         super().__init__(janela)
-        self.cor = {'Fundo':'#303030','Fonte':'#E0E4EA','bom':'#055902', 'ruim':'#B24448'}
+        self.cor = {'Fundo':'#111526','Fonte':'#aed1e8','bom':'#055902', 'ruim':'#B24448'}
         self.janela = janela
         self.janela.title('Digitar Script')
         self.janela.geometry('500x500')
@@ -215,18 +214,24 @@ class Aplicacao(tk.Frame):
             self.enminuto['bg']=self.cor['ruim']
 
         teste_segundo = self.ensegundo.get().strip()
-        if teste_segundo.isnumeric():
+        teste_segundo = teste_segundo.replace(",",".")
+
+        if teste_segundo.isdecimal():
             segundo = float(teste_segundo)
             self.ensegundo['bg']=self.cor['Fonte']
         else:
             self.ensegundo['bg']=self.cor['ruim']
 
         teste_distancia = self.endistancia.get().strip()
-        if teste_distancia.isnumeric():
+
+        teste_distancia = teste_distancia.replace(",",".")
+
+        if teste_distancia.isdecimal():
             distancia = float(teste_distancia)
             self.endistancia['bg']=self.cor['Fonte']
         else:
             self.endistancia['bg']=self.cor['ruim']
+
 
         # --- arquivo-----
         try:
@@ -250,9 +255,7 @@ class Aplicacao(tk.Frame):
                             rm = f'{rm[0]}O'
                         elif rm[1] =='E':
                             rm = f'{rm[0]}L'
-                        print(rm)
                         try:
-                            print('ok')
                             rumo = Rumos(grau, minuto, segundo, distancia, rm)
                             a.editar(rumo)
                             self.bt_lblog['text'] = f'Anterior: {rumo}'
