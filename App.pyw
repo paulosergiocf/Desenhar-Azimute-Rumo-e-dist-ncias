@@ -11,7 +11,7 @@ class ScriptCad:
 
     def criar(self):
         arq = open(r''+self.arquivo+'.scr', 'w')
-        arq.writelines(f'_POLYLINE\n0,0\n')
+        arq.writelines(f'_PLINE\n0,0\n')
         arq.close()
 
 
@@ -195,6 +195,12 @@ class Aplicacao(tk.Frame):
         self.container.forget()
         self.inicio()
 
+    def isnumber(self, value):
+        try:
+             float(value)
+        except ValueError:
+             return False
+        return True
 
     def proximo(self):
         teste_orientacoes = 'bad'
@@ -216,17 +222,16 @@ class Aplicacao(tk.Frame):
         teste_segundo = self.ensegundo.get().strip()
         teste_segundo = teste_segundo.replace(",",".")
 
-        if teste_segundo.isdecimal():
+        if self.isnumber(teste_segundo) == True:
             segundo = float(teste_segundo)
             self.ensegundo['bg']=self.cor['Fonte']
         else:
             self.ensegundo['bg']=self.cor['ruim']
 
         teste_distancia = self.endistancia.get().strip()
-
         teste_distancia = teste_distancia.replace(",",".")
 
-        if teste_distancia.isdecimal():
+        if self.isnumber(teste_distancia)== True:
             distancia = float(teste_distancia)
             self.endistancia['bg']=self.cor['Fonte']
         else:
